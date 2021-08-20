@@ -1,14 +1,13 @@
-'''
+"""
 This file contains all the functions used in the notebook 
-qubo_mathematical_definition.
+QUBO_Mathematical_Definition.
 
-Prepared by AkashNarayanan B
-'''
-
+Prepared by Akash Narayanan
+"""
+import itertools
 from ipywidgets import interact
 import numpy as np
-import itertools
- 
+
 
 def task_1(x1, x2):
     value = 5*x1 + 7*x1*x2 - 3*x2
