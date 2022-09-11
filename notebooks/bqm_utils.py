@@ -119,3 +119,59 @@ def graph_coloring_viz(G, coloring):
     plt.tight_layout()
     plt.axis("off")
     plt.show()
+
+
+def tsp_viz(G, input_path):
+    """Visualize the output of travelling salesman problem.
+
+    Parameters
+    ----------
+    G : networkx.Graph
+        Problem NetworkX graph.
+
+    input_path : list/dict
+        The order in which the cities are visited.
+    """
+    if isinstance(input_path, dict):
+        input_path = [city for (pos, [city]) in sorted(input_path.items())]
+
+    path = []
+    for i in range(len(input_path)):
+        if i + 1 == len(input_path):
+            path.append((input_path[i], input_path[0]))
+        else:
+            path.append((input_path[i], input_path[i + 1]))
+
+    non_path = [(u, v) for u, v in G.edges if (u, v) not in path and (v, u) not in path]
+
+    pos = nx.kamada_kawai_layout(G)
+    nx.draw_networkx_nodes(
+        G, pos, nodelist=G.nodes, node_color="tab:blue", node_size=700
+    )
+
+    nx.draw_networkx_edges(
+        G,
+        pos,
+        edgelist=path,
+        style="solid",
+        width=3,
+        arrows=True,
+        arrowstyle="->",
+        arrowsize=30,
+    )
+    nx.draw_networkx_edges(
+        G,
+        pos,
+        edgelist=non_path,
+        style="dashed",
+        edge_color="tab:blue",
+        alpha=0.7,
+        width=3,
+    )
+
+    nx.draw_networkx_labels(
+        G, pos, font_size=14, font_weight="bold", font_color="whitesmoke"
+    )
+    plt.tight_layout()
+    plt.axis("off")
+    plt.show()
