@@ -21,7 +21,7 @@ def graph_viz(G):
     ----------
     G : networkx.Graph
         The NetworkX graph to be visualized.
-    """
+    
     nx.draw_kamada_kawai(
         G,
         with_labels=True,
@@ -31,6 +31,20 @@ def graph_viz(G):
         font_weight="bold",
         font_color="whitesmoke",
     )
+    """
+    options = {
+    'node_size': 700,
+    'width': 3,
+    'arrowstyle': '-|>',
+    'arrowsize': 12,
+    'font_size': 14,
+    'font_weight':"bold",
+    'font_color':"whitesmoke",
+    }
+    pos=nx.kamada_kawai_layout(G) # pos = nx.nx_agraph.graphviz_layout(G)
+    nx.draw_networkx(G,pos,**options)
+    labels = nx.get_edge_attributes(G,'weight')
+    nx.draw_networkx_edge_labels(G,pos,edge_labels=labels)
     plt.axis("off")
     plt.show()
 
@@ -98,6 +112,10 @@ def graph_coloring_viz(G, coloring):
     coloring : dict
         The colors assigned to the nodes.
     """
+    
+    color_list= {'B':'tab:blue', 'O':'tab:orange','G':'tab:green','R': 'tab:red', 'P': 'tab:pink', 'Y':'tab:olive'}
+                 
+        
     colors = list(mcolors.TABLEAU_COLORS)
 
     pos = nx.kamada_kawai_layout(G)
@@ -107,9 +125,13 @@ def graph_coloring_viz(G, coloring):
             nx.draw_networkx_nodes(
                 G, pos, nodelist=[node], node_color=[colors[color]], node_size=700
             )
+        elif isinstance(color, str):
+            nx.draw_networkx_nodes(
+                G, pos, nodelist=[node], node_color=[color_list[color]], node_size=700
+            )
         elif isinstance(color, list):
             nx.draw_networkx_nodes(
-                G, pos, nodelist=[node], node_color=[colors[color[0]]], node_size=700
+                G, pos, nodelist=[node], node_color= 'tab:black', node_size=700
             )
 
     nx.draw_networkx_edges(G, pos, edgelist=G.edges, style="solid", width=3)
@@ -172,6 +194,8 @@ def tsp_viz(G, input_path):
     nx.draw_networkx_labels(
         G, pos, font_size=14, font_weight="bold", font_color="whitesmoke"
     )
+    labels = nx.get_edge_attributes(G,'weight')
+    nx.draw_networkx_edge_labels(G,pos,edge_labels=labels)
     plt.tight_layout()
     plt.axis("off")
     plt.show()
