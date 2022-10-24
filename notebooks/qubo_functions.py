@@ -5,7 +5,7 @@ QUBO_Mathematical_Definition.
 Prepared by Akash Narayanan B
 """
 import itertools
-from ipywidgets import interact
+from ipywidgets import interact,IntSlider
 import numpy as np
 
 
